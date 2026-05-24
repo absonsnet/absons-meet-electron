@@ -13,7 +13,10 @@ import { RecentList, addRecentListEntry } from '../../recent-list';
 import Button from '../../shared/components/Button';
 import FieldText from '../../shared/components/FieldText';
 import Page from '../../shared/components/Page';
-import { createConferenceObjectFromURL } from '../../utils';
+import {
+    CONFERENCE_INPUT_ERRORS,
+    parseConferenceInput
+} from '../../utils';
 import { Body, Form, Header, Label, Wrapper } from '../styled';
 
 
@@ -55,6 +58,7 @@ class Welcome extends Component {
         this.state = {
             animateTimeoutId: undefined,
             generatedRoomname: '',
+            inputError: undefined,
             roomPlaceholder: '',
             updateTimeoutId: undefined,
             url
@@ -62,6 +66,7 @@ class Welcome extends Component {
 
         // Bind event handlers.
         this._animateRoomnameChanging = this._animateRoomnameChanging.bind(this);
+        this._getInputError = this._getInputError.bind(this);
         this._onURLChange = this._onURLChange.bind(this);
         this._onFormSubmit = this._onFormSubmit.bind(this);
         this._onJoin = this._onJoin.bind(this);
@@ -161,13 +166,17 @@ class Welcome extends Component {
      */
     _onJoin() {
         const inputURL = this.state.url || this.state.generatedRoomname;
-        const conference = createConferenceObjectFromURL(
+        const { conference, error } = parseConferenceInput(
             inputURL,
             config.defaultServerURL
         );
 
         // Don't navigate if conference couldn't be created
         if (!conference) {
+            this.setState({
+                inputError: error || CONFERENCE_INPUT_ERRORS.INVALID
+            });
+
             return;
         }
 
@@ -184,9 +193,31 @@ class Welcome extends Component {
      * @returns {void}
      */
     _onURLChange(event) {
+        const value = event.currentTarget.value;
+        const inputError = this._getInputError(value);
+
         this.setState({
-            url: event.currentTarget.value
+            inputError,
+            url: value
         });
+    }
+
+    /**
+     * Validates launcher input and returns an error translation key.
+     *
+     * @param {string} value - Input value from text field.
+     * @returns {?string}
+     */
+    _getInputError(value) {
+        const trimmedValue = (value || '').trim();
+
+        if (!trimmedValue) {
+            return undefined;
+        }
+
+        const { error } = parseConferenceInput(trimmedValue, config.defaultServerURL);
+
+        return error;
     }
 
     /**
@@ -218,8 +249,10 @@ class Welcome extends Component {
                     <Label>{ t('enterConferenceNameOrUrl') } </Label>
                     <MainFieldText
                         autoFocus = { true }
-                        isInvalid = { locationError }
+                        invalidMessage = { this.state.inputError ? t(this.state.inputError) : undefined }
+                        isInvalid = { locationError || Boolean(this.state.inputError) }
                         isLabelHidden = { true }
+                        isValidationHidden = { !this.state.inputError }
                         onChange = { this._onURLChange }
                         placeholder = { this.state.roomPlaceholder }
                         shouldFitContainer = { true }

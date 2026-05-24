@@ -1,5 +1,7 @@
 {
 	"enterConferenceNameOrUrl": "Enter a meeting name",
+	"invalidMeetingInput": "Enter a valid meeting name.",
+	"meetingHostedElsewhere": "This meeting is not hosted on ABSONS Meet.",
 	"go": "GO",
 	"help": "Help",
 	"termsLink": "Terms",
