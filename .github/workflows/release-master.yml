@@ -98,32 +98,59 @@ jobs:
           find release-assets -type f -print | sort
 
           copy_asset() {
-            local pattern="$1"
-            local target="$2"
-            local required="$3"
+            local target="$1"
+            local required="$2"
             local source
+            shift 2
 
-            source="$(find release-assets -type f -name "$pattern" | sort | head -n 1)"
+            source=""
+            for pattern in "$@"; do
+              source="$(find release-assets -type f -name "$pattern" | sort | head -n 1)"
+              if [ -n "$source" ]; then
+                break
+              fi
+            done
 
             if [ -z "$source" ]; then
               if [ "$required" = "required" ]; then
-                echo "Required release asset not found: $pattern"
+                echo "Required release asset not found for stable target: $target"
+                echo "Tried patterns: $*"
                 exit 1
               fi
 
-              echo "Optional release asset not found: $pattern"
+              echo "Optional release asset not found for stable target: $target"
+              echo "Tried patterns: $*"
               return 0
             fi
 
             cp "$source" "stable-release-assets/$target"
+            echo "Prepared $target from $source"
           }
 
-          copy_asset 'ABSONS-Meet-*-mac-*.dmg' 'ABSONS-Meet-mac.dmg' required
-          copy_asset 'ABSONS-Meet-Setup-*-x64.exe' 'ABSONS-Meet-windows-x64.exe' required
-          copy_asset 'ABSONS-Meet-*-linux-x64.AppImage' 'ABSONS-Meet-linux-x64.AppImage' required
-          copy_asset 'ABSONS-Meet-*-linux-arm64.AppImage' 'ABSONS-Meet-linux-arm64.AppImage' optional
-          copy_asset 'ABSONS-Meet-*-linux-x64.deb' 'ABSONS-Meet-linux-x64.deb' optional
-          copy_asset 'ABSONS-Meet-*-linux-arm64.deb' 'ABSONS-Meet-linux-arm64.deb' optional
+          copy_asset 'ABSONS-Meet-mac.dmg' required \
+            'ABSONS-Meet-*-mac-universal.dmg' \
+            'ABSONS-Meet-*-mac-*.dmg'
+          copy_asset 'ABSONS-Meet-windows-x64.exe' required \
+            'ABSONS-Meet-Setup-*-x64.exe'
+          copy_asset 'ABSONS-Meet-linux-x64.AppImage' required \
+            'ABSONS-Meet-*-linux-x86_64.AppImage' \
+            'ABSONS-Meet-*-linux-x64.AppImage'
+
+          copy_asset 'ABSONS-Meet-mac.zip' optional \
+            'ABSONS-Meet-*-mac-universal.zip' \
+            'ABSONS-Meet-*-mac-*.zip'
+          copy_asset 'ABSONS-Meet-windows-arm64.exe' optional \
+            'ABSONS-Meet-Setup-*-arm64.exe'
+          copy_asset 'ABSONS-Meet-windows-ia32.exe' optional \
+            'ABSONS-Meet-Setup-*-ia32.exe'
+          copy_asset 'ABSONS-Meet-linux-arm64.AppImage' optional \
+            'ABSONS-Meet-*-linux-arm64.AppImage'
+          copy_asset 'ABSONS-Meet-linux-x64.deb' optional \
+            'ABSONS-Meet-*-linux-amd64.deb' \
+            'ABSONS-Meet-*-linux-x86_64.deb' \
+            'ABSONS-Meet-*-linux-x64.deb'
+          copy_asset 'ABSONS-Meet-linux-arm64.deb' optional \
+            'ABSONS-Meet-*-linux-arm64.deb'
 
           echo "Stable release assets:"
           find stable-release-assets -maxdepth 1 -type f -print | sort
@@ -141,6 +168,11 @@ jobs:
           if [ ${#FILES[@]} -eq 0 ]; then
             echo "No release assets found."
             exit 1
+          fi
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "Release $TAG already exists. Deleting it before recreating assets for this run."
+            gh release delete "$TAG" --yes
           fi
 
           gh release create "$TAG" "${FILES[@]}" \
