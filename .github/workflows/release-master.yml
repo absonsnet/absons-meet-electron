@@ -44,6 +44,9 @@ jobs:
       - name: Generate icons
         run: npm run generate-icons
 
+      - name: Validate package version
+        run: npm run check-version
+
       - name: Build app bundles
         run: npm run build
 
@@ -83,6 +86,9 @@ jobs:
           pattern: '*-dist'
           path: release-assets
           merge-multiple: true
+
+      - name: Validate package version
+        run: npm run check-version
 
       - name: Read package version
         id: version

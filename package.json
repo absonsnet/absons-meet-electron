@@ -1,6 +1,6 @@
 {
   "name": "absons-meet-electron",
-  "version": "1.0.08",
+  "version": "1.0.9",
   "description": "Electron application for ABSONS Meet",
   "main": "./build/main.js",
   "productName": "ABSONS Meet",
@@ -10,12 +10,13 @@
     "clean": "rm -rf node_modules build dist",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
-    "build": "webpack --config ./webpack.main.js --mode production && webpack --config ./webpack.renderer.js --mode production",
+    "build": "npm run check-version && webpack --config ./webpack.main.js --mode production && webpack --config ./webpack.renderer.js --mode production",
     "dist": "npm run build && electron-builder",
     "postinstall": "patch-package",
     "watch": "webpack --config ./webpack.renderer.js --mode development --watch --watch-options-poll=1000",
     "generate-icons": "node scripts/generate-icons.cjs",
-    "check-branding": "node scripts/check-branding.cjs"
+    "check-branding": "node scripts/check-branding.cjs",
+    "check-version": "node scripts/check-version.cjs"
   },
   "engines": {
     "node": ">=22.0.0"
