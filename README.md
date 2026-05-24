@@ -11,12 +11,8 @@ Download the latest ABSONS Meet desktop builds:
 [![macOS](https://img.shields.io/badge/macOS-Download_DMG-000000?logo=apple&logoColor=white)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-mac.dmg)
 [![Windows](https://img.shields.io/badge/Windows-Download_EXE-0078D4?logo=windows&logoColor=white)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-windows-x64.exe)
 [![Linux x64](https://img.shields.io/badge/Linux_x64-Download_AppImage-FCC624?logo=linux&logoColor=black)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-x64.AppImage)
-[![Linux ARM64](https://img.shields.io/badge/Linux_ARM64-Download_AppImage-FCC624?logo=linux&logoColor=black)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-arm64.AppImage)
 
-Additional Linux Debian packages are available from the [latest release](https://github.com/absonsnet/absons-meet-electron/releases/latest):
-
-- [Linux x64 `.deb`](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-x64.deb)
-- [Linux ARM64 `.deb`](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-arm64.deb)
+Additional Linux packages may be available from the [latest release](https://github.com/absonsnet/absons-meet-electron/releases/latest).
 
 ## Features
 

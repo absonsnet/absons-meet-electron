@@ -94,13 +94,38 @@ jobs:
         run: |
           mkdir -p stable-release-assets
 
-          cp "$(find release-assets -type f -name 'ABSONS-Meet-*-mac-*.dmg' | sort | head -n 1)" stable-release-assets/ABSONS-Meet-mac.dmg
-          cp "$(find release-assets -type f -name 'ABSONS-Meet-Setup-*-x64.exe' | sort | head -n 1)" stable-release-assets/ABSONS-Meet-windows-x64.exe
-          cp "$(find release-assets -type f -name 'ABSONS-Meet-*-linux-x64.AppImage' | sort | head -n 1)" stable-release-assets/ABSONS-Meet-linux-x64.AppImage
-          cp "$(find release-assets -type f -name 'ABSONS-Meet-*-linux-arm64.AppImage' | sort | head -n 1)" stable-release-assets/ABSONS-Meet-linux-arm64.AppImage
-          cp "$(find release-assets -type f -name 'ABSONS-Meet-*-linux-x64.deb' | sort | head -n 1)" stable-release-assets/ABSONS-Meet-linux-x64.deb
-          cp "$(find release-assets -type f -name 'ABSONS-Meet-*-linux-arm64.deb' | sort | head -n 1)" stable-release-assets/ABSONS-Meet-linux-arm64.deb
+          echo "Downloaded release artifacts:"
+          find release-assets -type f -print | sort
 
+          copy_asset() {
+            local pattern="$1"
+            local target="$2"
+            local required="$3"
+            local source
+
+            source="$(find release-assets -type f -name "$pattern" | sort | head -n 1)"
+
+            if [ -z "$source" ]; then
+              if [ "$required" = "required" ]; then
+                echo "Required release asset not found: $pattern"
+                exit 1
+              fi
+
+              echo "Optional release asset not found: $pattern"
+              return 0
+            fi
+
+            cp "$source" "stable-release-assets/$target"
+          }
+
+          copy_asset 'ABSONS-Meet-*-mac-*.dmg' 'ABSONS-Meet-mac.dmg' required
+          copy_asset 'ABSONS-Meet-Setup-*-x64.exe' 'ABSONS-Meet-windows-x64.exe' required
+          copy_asset 'ABSONS-Meet-*-linux-x64.AppImage' 'ABSONS-Meet-linux-x64.AppImage' required
+          copy_asset 'ABSONS-Meet-*-linux-arm64.AppImage' 'ABSONS-Meet-linux-arm64.AppImage' optional
+          copy_asset 'ABSONS-Meet-*-linux-x64.deb' 'ABSONS-Meet-linux-x64.deb' optional
+          copy_asset 'ABSONS-Meet-*-linux-arm64.deb' 'ABSONS-Meet-linux-arm64.deb' optional
+
+          echo "Stable release assets:"
           find stable-release-assets -maxdepth 1 -type f -print | sort
 
       - name: Create release
