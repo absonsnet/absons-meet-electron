@@ -107,7 +107,7 @@ class Conference extends Component {
 
     /**
      * Load the conference by creating the iframe element in this component
-     * and attaching utils from jitsi-meet-electron-utils.
+     * and attaching conference utilities.
      *
      * @returns {void}
      */
@@ -184,7 +184,7 @@ class Conference extends Component {
             }
         );
 
-        // Setup Jitsi Meet Electron SDK on this renderer.
+        // Setup the Electron SDK on this renderer.
         window.jitsiNodeAPI.setupRenderer(this._api, {
             enableRemoteControl: ENABLE_REMOTE_CONTROL,
             enableAlwaysOnTopWindow: this.props._alwaysOnTopWindowEnabled

@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 
-import LogoSVG from '../../../images/logo.svg';
+import logoPng from '../../../images/logo.png';
 
 /**
  * Logo component.
@@ -15,8 +15,10 @@ export default class Logo extends Component {
      */
     render() {
         return (
-            <LogoSVG
+            <img
+                alt = 'ABSONS Meet'
                 height = { 40 }
+                src = { logoPng }
                 width = { 40 } />
         );
     }

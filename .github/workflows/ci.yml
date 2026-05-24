@@ -24,15 +24,16 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         npm ci
+        npm run generate-icons
         npm run dist
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
       with:
         name: linux-binaries
         path: |
-          dist/jitsi-meet-amd64.deb
-          dist/jitsi-meet-x86_64.AppImage
-          dist/jitsi-meet-arm64.deb
-          dist/jitsi-meet-arm64.AppImage
+          dist/ABSONS-Meet-*-linux-x64.deb
+          dist/ABSONS-Meet-*-linux-x64.AppImage
+          dist/ABSONS-Meet-*-linux-arm64.deb
+          dist/ABSONS-Meet-*-linux-arm64.AppImage
           dist/latest-linux.yml
           dist/latest-linux-arm64.yml
   build-mac:
@@ -59,13 +60,14 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         npm ci
+        npm run generate-icons
         npm run dist
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
       with:
         name: mac-binaries
         path: |
-          dist/jitsi-meet.dmg
-          dist/jitsi-meet.zip
+          dist/ABSONS-Meet-*-mac-*.dmg
+          dist/ABSONS-Meet-*-mac-*.zip
           dist/latest-mac.yml
   build-windows:
     name: Windows
@@ -80,12 +82,13 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         npm ci
+        npm run generate-icons
         npm run dist
     - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
       with:
         name: windows-binaries
         path: |
-          dist/jitsi-meet.exe
+          dist/ABSONS-Meet-Setup-*.exe
           dist/latest.yml
   lint:
     runs-on: ubuntu-latest

@@ -198,7 +198,7 @@ Documented in README.md Publishing section:
 ## Important Flags and Constants
 
 - `ENABLE_REMOTE_CONTROL`: Must be enabled in both `main.js:34` and `Conference.js:18`
-- `config.defaultServerURL`: Default Jitsi Meet server (meet.jit.si)
+- `config.defaultServerURL`: Default Jitsi Meet server (meet.absons.net)
 - `config.appProtocolPrefix`: Protocol scheme (jitsi-meet)
 - `config.defaultServerTimeout`: Loading timeout in seconds (30)
 

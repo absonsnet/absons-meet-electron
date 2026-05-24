@@ -82,7 +82,7 @@ if (isDev) {
 }
 
 /**
- * The window object that will load the iframe with Jitsi Meet.
+ * The window object that will load the iframe with ABSONS Meet.
  * IMPORTANT: Must be defined as global in order to not be garbage collected
  * acidentally.
  */
@@ -176,7 +176,7 @@ function setApplicationMenu() {
 }
 
 /**
- * Opens new window with index.html(Jitsi Meet is loaded in iframe there).
+ * Opens new window with index.html(ABSONS Meet is loaded in iframe there).
  */
 function createJitsiMeetWindow() {
     // Application menu.
@@ -203,7 +203,7 @@ function createJitsiMeetWindow() {
         slashes: true
     });
 
-    // Options used when creating the main Jitsi Meet window.
+    // Options used when creating the main ABSONS Meet window.
     // Use a preload script in order to provide node specific functionality
     // to a isolated BrowserWindow in accordance with electron security
     // guideline.
@@ -252,8 +252,7 @@ function createJitsiMeetWindow() {
         callback({ cancel: false });
     });
 
-    // Filter out x-frame-options and frame-ancestors CSP to allow loading jitsi via the iframe API
-    // Resolves https://github.com/jitsi/jitsi-meet-electron/issues/285
+    // Filter out x-frame-options and frame-ancestors CSP to allow iframe loading.
     mainWindow.webContents.session.webRequest.onHeadersReceived((details, callback) => {
         delete details.responseHeaders['x-frame-options'];
 
@@ -321,7 +320,7 @@ function createJitsiMeetWindow() {
     });
 
     /**
-     * When someone tries to enter something like jitsi-meet://test
+     * When someone tries to enter something like absons-meet://test
      *  while app is closed
      * it will trigger this event below
      */
@@ -430,7 +429,7 @@ app.on('second-instance', (event, commandLine) => {
 
     /**
      * This is for windows [win32]
-     * so when someone tries to enter something like jitsi-meet://test
+     * so when someone tries to enter something like absons-meet://test
      * while app is opened it will trigger protocol handler.
      */
     handleProtocolCall(commandLine.pop());
@@ -458,7 +457,7 @@ if (isDev && process.platform === 'win32') {
 
 /**
  * This is for mac [darwin]
- * so when someone tries to enter something like jitsi-meet://test
+ * so when someone tries to enter something like absons-meet://test
  * it will trigger this event below
  */
 app.on('open-url', (event, data) => {

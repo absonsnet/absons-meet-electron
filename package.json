@@ -1,9 +1,9 @@
 {
-  "name": "jitsi-meet-electron",
+  "name": "absons-meet-electron",
   "version": "2026.5.0",
-  "description": "Electron application for Jitsi Meet",
+  "description": "Electron application for ABSONS Meet",
   "main": "./build/main.js",
-  "productName": "Jitsi Meet",
+  "productName": "ABSONS Meet",
   "private": true,
   "scripts": {
     "start": "webpack --config ./webpack.main.js --mode development && concurrently \"npm:watch\" \"electron ./build/main.js\"",
@@ -13,14 +13,16 @@
     "build": "webpack --config ./webpack.main.js --mode production && webpack --config ./webpack.renderer.js --mode production",
     "dist": "npm run build && electron-builder",
     "postinstall": "patch-package",
-    "watch": "webpack --config ./webpack.renderer.js --mode development --watch --watch-options-poll=1000"
+    "watch": "webpack --config ./webpack.renderer.js --mode development --watch --watch-options-poll=1000",
+    "generate-icons": "node scripts/generate-icons.cjs",
+    "check-branding": "node scripts/check-branding.cjs"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "build": {
-    "appId": "org.jitsi.jitsi-meet",
-    "productName": "Jitsi Meet",
+    "appId": "net.absons.meet",
+    "productName": "ABSONS Meet",
     "generateUpdatesFilesForAllChannels": true,
     "npmRebuild": false,
     "files": [
@@ -30,7 +32,7 @@
       "!main.js"
     ],
     "mac": {
-      "artifactName": "jitsi-meet.${ext}",
+      "artifactName": "ABSONS-Meet-${version}-mac-${arch}.${ext}",
       "target": [
         {
           "arch": "universal",
@@ -45,11 +47,12 @@
       "darkModeSupport": true,
       "entitlements": "resources/entitlements.mac.plist",
       "extendInfo": {
-        "NSCameraUsageDescription": "Jitsi Meet requires access to your camera in order to make video-calls.",
-        "NSMicrophoneUsageDescription": "Jitsi Meet requires access to your microphone in order to make calls (audio/video).",
-        "NSAudioCaptureUsageDescription": "Jitsi Meet can share your system audio via screensharing if you enable it.",
+        "NSCameraUsageDescription": "ABSONS Meet requires access to your camera in order to make video calls.",
+        "NSMicrophoneUsageDescription": "ABSONS Meet requires access to your microphone in order to make audio and video calls.",
+        "NSAudioCaptureUsageDescription": "ABSONS Meet can share your system audio during screen sharing if you enable it.",
         "LSMultipleInstancesProhibited": true
-      }
+      },
+      "icon": "resources/icon.icns"
     },
     "mas": {
       "entitlements": "resources/entitlements.mas.plist",
@@ -57,10 +60,10 @@
       "hardenedRuntime": false
     },
     "linux": {
-      "artifactName": "jitsi-meet-${arch}.${ext}",
+      "artifactName": "ABSONS-Meet-${version}-linux-${arch}.${ext}",
       "category": "VideoConference;AudioVideo;Audio;Video;Network",
-      "description": "Jitsi Meet Desktop App",
-      "executableName": "jitsi-meet",
+      "description": "ABSONS Meet Desktop App",
+      "executableName": "absons-meet",
       "target": [
         {
           "arch": "x64",
@@ -78,10 +81,11 @@
           "arch": "arm64",
           "target": "deb"
         }
-      ]
+      ],
+      "icon": "resources/icons"
     },
     "win": {
-      "artifactName": "jitsi-meet.${ext}",
+      "artifactName": "ABSONS-Meet-Setup-${version}-${arch}.${ext}",
       "target": [
         {
           "arch": [
@@ -91,17 +95,18 @@
           ],
           "target": "nsis"
         }
-      ]
+      ],
+      "icon": "resources/icon.ico"
     },
     "directories": {
       "buildResources": "resources"
     },
     "protocols": [
       {
-        "name": "jitsi-protocol",
+        "name": "absons-meet-protocol",
         "role": "Viewer",
         "schemes": [
-          "jitsi-meet"
+          "absons-meet"
         ]
       }
     ]
@@ -111,16 +116,16 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/jitsi/jitsi-meet-electron"
+    "url": "git://github.com/absonsnet/absons-meet-electron"
   },
   "keywords": [
     "jingle",
     "webrtc",
     "xmpp",
     "electron",
-    "jitsi-meet"
+    "absons-meet"
   ],
-  "author": "Jitsi Team <support@jitsi.org>",
+  "author": "ABSONS",
   "readmeFilename": "README.md",
   "license": "Apache-2.0",
   "dependencies": {
@@ -161,6 +166,8 @@
     "i18next": "^19.9.2",
     "mousetrap": "^1.6.5",
     "patch-package": "8.0.1",
+    "png-to-ico": "^2.1.8",
+    "png2icons": "^2.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-i18next": "^11.8.12",
@@ -168,6 +175,7 @@
     "redux": "^4.1.2",
     "redux-logger": "^3.0.6",
     "redux-persist": "^5.10.0",
+    "sharp": "^0.34.5",
     "source-map-support": "^0.5.19",
     "style-loader": "^3.3.1",
     "styled-components": "^3.4.10",
