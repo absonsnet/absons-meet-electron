@@ -63,6 +63,7 @@
       "artifactName": "ABSONS-Meet-${version}-linux-${arch}.${ext}",
       "category": "VideoConference;AudioVideo;Audio;Video;Network",
       "description": "ABSONS Meet Desktop App",
+      "maintainer": "ABSONS",
       "executableName": "absons-meet",
       "target": [
         {
