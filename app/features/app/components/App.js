@@ -67,7 +67,7 @@ class App extends Component {
 
         const conference = createConferenceObjectFromURL(
             inputURL,
-            this.props._serverURL || config.defaultServerURL
+            config.defaultServerURL
         );
 
         // Don't navigate if conference couldn't be created
@@ -95,20 +95,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-    _serverURL: PropTypes.string,
     dispatch: PropTypes.func
 };
 
-/**
- * Maps (parts of) the redux state to the React props.
- *
- * @param {Object} state - The redux state.
- * @returns {Object}
- */
-function _mapStateToProps(state) {
-    return {
-        _serverURL: state.settings.serverURL
-    };
-}
-
-export default connect(_mapStateToProps)(App);
+export default connect()(App);

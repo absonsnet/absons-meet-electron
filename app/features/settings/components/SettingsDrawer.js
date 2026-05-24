@@ -14,7 +14,6 @@ import {
 import { SettingsContainer, TogglesContainer } from '../styled';
 
 import ServerTimeoutField from './ServerTimeoutField';
-import ServerURLField from './ServerURLField';
 import SettingToggle from './SettingToggle';
 
 
@@ -102,7 +101,6 @@ class SettingsDrawer extends Component {
                 </DrawerHeader>
                 <DrawerContainer>
                     <SettingsContainer>
-                        <ServerURLField />
                         <ServerTimeoutField />
                         <TogglesContainer>
                             <SettingToggle

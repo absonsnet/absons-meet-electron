@@ -46,9 +46,7 @@ class Conference extends Component {
      */
     componentDidMount() {
         const room = this.props.conference.room;
-        const serverURL = this.props.conference.serverURL
-            || this.props._serverURL
-            || config.defaultServerURL;
+        const serverURL = config.defaultServerURL;
 
         this._conference = {
             room,
@@ -244,7 +242,6 @@ Conference.propTypes = {
     _alwaysOnTopWindowEnabled: PropTypes.bool,
     _disableAGC: PropTypes.bool,
     _serverTimeout: PropTypes.number,
-    _serverURL: PropTypes.string,
     conference: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
 };
@@ -259,7 +256,6 @@ function _mapStateToProps(state) {
     return {
         _alwaysOnTopWindowEnabled: getSetting(state, 'alwaysOnTopWindowEnabled', true),
         _disableAGC: state.settings.disableAGC,
-        _serverURL: state.settings.serverURL,
         _serverTimeout: state.settings.serverTimeout
     };
 }

@@ -29,34 +29,31 @@ export function openExternalLink(link) {
 
 
 /**
- * Get URL, extract room name from it and create a Conference object.
+ * Validates the input as a meeting name and creates a Conference object
+ * for the default server.
  *
- * @param {string} inputURL - Combined server url with room separated by /.
+ * @param {string} inputURL - Meeting name value from user input or protocol.
  * @param {string} defaultServerURL - Server URL to use for room-only input.
  * @returns {Object}
  */
 export function createConferenceObjectFromURL(inputURL, defaultServerURL) {
-    const lastIndexOfSlash = inputURL.lastIndexOf('/');
-    let room;
-    let serverURL;
-
-    if (lastIndexOfSlash === -1) {
-        // This must be only the room name.
-        room = inputURL;
-        serverURL = normalizeServerURL(defaultServerURL || '');
-    } else {
-        // Take the substring after last slash to be the room name.
-        room = inputURL.substring(lastIndexOfSlash + 1);
-
-        // Take the substring before last slash to be the Server URL.
-        serverURL = inputURL.substring(0, lastIndexOfSlash);
-
-        // Normalize the server URL.
-        serverURL = normalizeServerURL(serverURL);
-    }
+    let room = (inputURL || '').trim();
+    const serverURL = normalizeServerURL(defaultServerURL || '');
 
     // Don't navigate if no room was specified.
     if (!room) {
+        return;
+    }
+
+    // Treat any pasted URL-like value as a meeting name by taking only
+    // the last path segment and dropping query/hash fragments.
+    if (room.includes('/')) {
+        room = room.substring(room.lastIndexOf('/') + 1);
+    }
+
+    room = room.split('?')[0].split('#')[0].trim();
+
+    if (!room || /[:/?#]/.test(room)) {
         return;
     }
 

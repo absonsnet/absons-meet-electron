@@ -45,10 +45,10 @@ class Welcome extends Component {
 
         // Check and parse url if exists in location state.
         if (props.location?.state) {
-            const { room, serverURL } = props.location.state;
+            const { room } = props.location.state;
 
-            if (room && serverURL) {
-                url = `${serverURL}/${room}`;
+            if (room) {
+                url = room;
             }
         }
 
@@ -163,7 +163,7 @@ class Welcome extends Component {
         const inputURL = this.state.url || this.state.generatedRoomname;
         const conference = createConferenceObjectFromURL(
             inputURL,
-            this.props._serverURL || config.defaultServerURL
+            config.defaultServerURL
         );
 
         // Don't navigate if conference couldn't be created
@@ -261,22 +261,9 @@ class Welcome extends Component {
 }
 
 Welcome.propTypes = {
-    _serverURL: PropTypes.string,
     dispatch: PropTypes.func.isRequired,
     location: PropTypes.object,
     t: PropTypes.func.isRequired
 };
 
-/**
- * Maps (parts of) the redux state to the React props.
- *
- * @param {Object} state - The redux state.
- * @returns {Object}
- */
-function _mapStateToProps(state) {
-    return {
-        _serverURL: state.settings.serverURL
-    };
-}
-
-export default compose(connect(_mapStateToProps), withTranslation())(Welcome);
+export default compose(connect(), withTranslation())(Welcome);

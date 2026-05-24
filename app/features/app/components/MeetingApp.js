@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
@@ -38,16 +37,11 @@ class MeetingApp extends Component {
             conference => {
                 if (conference && typeof conference === 'object' && conference.room) {
                     try {
-                        const defaultURL = this.props._serverURL || config.defaultServerURL;
-                        const serverURL = conference.serverURL || defaultURL;
-                        const url = new URL(conference.room, serverURL);
+                        const url = new URL(conference.room, config.defaultServerURL);
 
                         document.title = url.href;
                     } catch (e) {
-                        const defaultURL = this.props._serverURL || config.defaultServerURL;
-                        const serverURL = conference.serverURL || defaultURL;
-
-                        document.title = `${serverURL}/${conference.room}`;
+                        document.title = `${config.defaultServerURL}/${conference.room}`;
                     }
                     this.setState({ conference });
                 } else {
@@ -68,7 +62,7 @@ class MeetingApp extends Component {
 
                 const conference = createConferenceObjectFromURL(
                     parsedURL,
-                    this.props._serverURL || config.defaultServerURL
+                    config.defaultServerURL
                 );
 
                 if (conference && conference.room) {
@@ -126,20 +120,4 @@ class MeetingApp extends Component {
     }
 }
 
-MeetingApp.propTypes = {
-    _serverURL: PropTypes.string
-};
-
-/**
- * Maps (parts of) the redux state to the React props.
- *
- * @param {Object} state - The redux state.
- * @returns {Props}
- */
-function _mapStateToProps(state) {
-    return {
-        _serverURL: state.settings.serverURL
-    };
-}
-
-export default connect(_mapStateToProps)(MeetingApp);
+export default connect()(MeetingApp);
