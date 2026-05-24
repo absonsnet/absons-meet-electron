@@ -27,7 +27,7 @@ git pull origin develop
 git checkout -b feature/<feature-name>
 
 # make changes
-npm version patch --no-git-tag-version
+npm run version:patch
 
 # commit and push
 git add .
@@ -45,7 +45,7 @@ git pull origin develop
 git checkout -b release/<version>
 
 # optional final version bump
-npm version patch --no-git-tag-version
+npm run version:patch
 
 git add .
 git commit -m "chore: prepare release <version>"
@@ -57,6 +57,24 @@ Then:
 1. Open PR `release/<version>` -> `master`.
 2. Merge the PR.
 3. Push/merge to `master` triggers build and release automation.
+
+## Version bumps
+
+Use the npm version scripts instead of manually editing `package.json`.
+They update both `package.json` and `package-lock.json`, and CI validates that both files match.
+
+```bash
+npm run version:patch
+npm run version:minor
+npm run version:major
+```
+
+Always commit both version files:
+
+```bash
+git add package.json package-lock.json
+git commit -m "chore: bump version"
+```
 
 ## Hotfix workflow
 
