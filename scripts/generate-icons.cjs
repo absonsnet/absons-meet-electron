@@ -18,18 +18,38 @@ const linuxIconsDir = path.join(resourcesDir, 'icons');
 const uiLogoPath = path.join(rootDir, 'app', 'images', 'logo.png');
 
 const linuxSizes = [ 16, 24, 32, 48, 64, 128, 256, 512, 1024 ];
+const iconContentScale = 0.82;
+const transparentBackground = {
+    r: 0,
+    g: 0,
+    b: 0,
+    alpha: 0
+};
 
 async function generateResizedPng(sourcePath, destinationPath, size) {
-    await sharp(sourcePath)
-        .resize(size, size, {
+    const innerSize = Math.round(size * iconContentScale);
+    const resizedIcon = await sharp(sourcePath)
+        .resize(innerSize, innerSize, {
             fit: 'contain',
-            background: {
-                r: 0,
-                g: 0,
-                b: 0,
-                alpha: 0
-            }
+            background: transparentBackground
         })
+        .png()
+        .toBuffer();
+
+    await sharp({
+        create: {
+            width: size,
+            height: size,
+            channels: 4,
+            background: transparentBackground
+        }
+    })
+        .composite([
+            {
+                input: resizedIcon,
+                gravity: 'center'
+            }
+        ])
         .png()
         .toFile(destinationPath);
 }
@@ -61,7 +81,7 @@ async function generateIconIco() {
 }
 
 function generateIconIcnsWithPng2Icons() {
-    const inputBuffer = fs.readFileSync(sourceIconPath);
+    const inputBuffer = fs.readFileSync(iconPngPath);
     const icnsBuffer = png2icons.createICNS(inputBuffer, png2icons.BICUBIC, 0);
 
     if (!icnsBuffer) {
@@ -76,18 +96,22 @@ function generateIconIcnsWithPng2Icons() {
 }
 
 async function generateIconIcns() {
-    if (process.platform !== 'darwin') {
-        console.log('macOS iconutil is not available on this platform. Falling back to png2icons.');
+    if (generateIconIcnsWithPng2Icons()) {
+        return true;
+    }
 
-        return generateIconIcnsWithPng2Icons();
+    if (process.platform !== 'darwin') {
+        console.log('macOS iconutil is not available on this platform.');
+
+        return false;
     }
 
     const iconutilCheck = spawnSync('iconutil', [ '--help' ], { stdio: 'ignore' });
 
     if (iconutilCheck.error) {
-        console.warn('iconutil is not available. Falling back to png2icons.');
+        console.warn('iconutil is not available.');
 
-        return generateIconIcnsWithPng2Icons();
+        return false;
     }
 
     const iconsetDir = path.join(resourcesDir, 'icon.iconset');
@@ -123,9 +147,8 @@ async function generateIconIcns() {
         } catch (error) {
             console.warn('iconutil failed to generate icon.icns.');
             console.warn(error.message);
-            console.warn('Falling back to png2icons for icon.icns generation.');
 
-            return generateIconIcnsWithPng2Icons();
+            return false;
         }
     } finally {
         fs.rmSync(iconsetDir, { recursive: true, force: true });
