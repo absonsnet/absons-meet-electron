@@ -1,6 +1,6 @@
 {
   "name": "absons-meet-electron",
-  "version": "1.0.05",
+  "version": "1.0.07",
   "description": "Electron application for ABSONS Meet",
   "main": "./build/main.js",
   "productName": "ABSONS Meet",

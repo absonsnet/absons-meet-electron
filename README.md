@@ -6,9 +6,17 @@ Desktop application for **ABSONS Meet** built with Electron.
 
 ## Releases
 
-Download the latest desktop builds from GitHub Releases:
+Download the latest ABSONS Meet desktop builds:
 
-https://github.com/absonsnet/absons-meet-electron/releases/latest
+[![macOS](https://img.shields.io/badge/macOS-Download_DMG-000000?logo=apple&logoColor=white)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-mac.dmg)
+[![Windows](https://img.shields.io/badge/Windows-Download_EXE-0078D4?logo=windows&logoColor=white)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-windows-x64.exe)
+[![Linux x64](https://img.shields.io/badge/Linux_x64-Download_AppImage-FCC624?logo=linux&logoColor=black)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-x64.AppImage)
+[![Linux ARM64](https://img.shields.io/badge/Linux_ARM64-Download_AppImage-FCC624?logo=linux&logoColor=black)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-arm64.AppImage)
+
+Additional Linux Debian packages are available from the [latest release](https://github.com/absonsnet/absons-meet-electron/releases/latest):
+
+- [Linux x64 `.deb`](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-x64.deb)
+- [Linux ARM64 `.deb`](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-arm64.deb)
 
 ## Features
 
@@ -17,48 +25,15 @@ https://github.com/absonsnet/absons-meet-electron/releases/latest
 - Screen sharing support
 - Always-on-top meeting window
 - Deep linking via `absons-meet://`
-- Works with configurable ABSONS Meet deployment URLs
+- Opens meetings on the configured ABSONS Meet deployment
 
-## Development
+## Reporting security issues
 
-### Requirements
+We take security very seriously and develop all projects to be secure and safe.
 
-- Node.js 22+
+If you find (or simply suspect) a security issue in any of the our projects, please contact us on https://absons.net.
 
-### Install dependencies
-
-```bash
-npm install
-```
-
-### Generate branding icons
-
-```bash
-npm run generate-icons
-```
-
-### Start development mode
-
-```bash
-npm start
-```
-
-### Build production bundles
-
-```bash
-npm run build
-```
-
-### Build installers/packages
-
-```bash
-npm run dist
-```
-
-## Notes
-
-- The app keeps internal Jitsi SDK dependencies such as `@jitsi/electron-sdk` and `JitsiMeetExternalAPI` for runtime compatibility.
-- Desktop protocol scheme is `absons-meet://`.
+**We encourage responsible disclosure for the sake of our users, so please reach out before posting in a public space.**
 
 ## License
 
