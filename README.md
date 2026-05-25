@@ -8,11 +8,30 @@ Desktop application for **ABSONS Meet** built with Electron.
 
 Download the latest ABSONS Meet desktop builds:
 
-[![macOS](https://img.shields.io/badge/macOS-Download_DMG-000000?logo=apple&logoColor=white)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-mac.dmg)
-[![Windows](https://img.shields.io/badge/Windows-Download_EXE-0078D4?logo=windows&logoColor=white)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-windows-x64.exe)
-[![Linux x64](https://img.shields.io/badge/Linux_x64-Download_AppImage-FCC624?logo=linux&logoColor=black)](https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-x64.AppImage)
-
-Additional Linux packages may be available from the [latest release](https://github.com/absonsnet/absons-meet-electron/releases/latest).
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th align="center"><img width="18" alt="" src="https://api.iconify.design/simple-icons:windows.svg?color=%230969da"> Windows</th>
+      <th align="center"><img width="18" alt="" src="https://api.iconify.design/simple-icons:apple.svg?color=%230969da"> macOS</th>
+      <th align="center"><img width="18" alt="" src="https://api.iconify.design/simple-icons:linux.svg?color=%230969da"> GNU/Linux (AppImage)</th>
+      <th align="center"><img width="18" alt="" src="https://api.iconify.design/simple-icons:linux.svg?color=%230969da"> GNU/Linux (Deb)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td align="center"><a href="https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-windows-x64.exe">Download</a></td>
+      <td align="center"><a href="https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-mac.dmg">Download</a></td>
+      <td align="center">
+        <a href="https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-x64.AppImage">x64</a>
+        <a href="https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-arm64.AppImage">arm64</a>
+      </td>
+      <td align="center">
+        <a href="https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-x64.deb">x86_64</a>
+        <a href="https://github.com/absonsnet/absons-meet-electron/releases/latest/download/ABSONS-Meet-linux-arm64.deb">arm64</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 ## Features
 
